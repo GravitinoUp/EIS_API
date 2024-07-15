@@ -17,7 +17,7 @@ class PlanCreateSchema(BaseModel):
     updated_at: datetime 
     
     branch_uuid: UUID = Field(default_factory=uuid4) 
-    status_id: int
+    status_id: int = Field(default=1, ge=1)
     
     
 class PlanGetSchema(PlanCreateSchema):

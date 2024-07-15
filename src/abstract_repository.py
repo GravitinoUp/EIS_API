@@ -51,9 +51,9 @@ class SQLAlchemyRepository(AbstractRepository):
             await session.commit()
             return res.scalar_one()
 
-    async def get_all(self):
+    async def get_all(self, limit: int, offset: int):
         async with async_session_maker() as session:
-            stmt = select(self.model)
+            stmt = select(self.model).offset(offset).limit(limit)
             res = await session.execute(statement=stmt)
             return res.scalars().all()
 

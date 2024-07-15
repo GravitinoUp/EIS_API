@@ -2,10 +2,11 @@
 branches app service and repository
 """
 
-from typing import List
-from uuid import UUID
-from fastapi import HTTPException
 
+from uuid import UUID
+from sqlalchemy.exc import IntegrityError
+
+from src.exceptions import ConflictException, NotFoundException
 from src.abstract_repository import SQLAlchemyRepository, AbstractRepository
 from src.branches.models import Branch
 from src.branches.schemas import BranchCreateSchema
@@ -29,20 +30,20 @@ class BranchService:
         try:
             new_branch: Branch = await self.repo.add(branch_dict)
             return new_branch
-        except Exception as e:
-            raise HTTPException(
-                status_code=400,
-                detail=f"couldn't create branch: {e}",
-            )
+        except IntegrityError:
+            raise ConflictException()
     
     async def get_by_uuid(self, uuid: UUID):
-        branch: Branch = await self.repo.get_by_uuid(uuid)
-        return branch
+        if branch := await self.repo.get_by_uuid(uuid):
+            return branch
+        raise NotFoundException()
     
     async def delete_by_uuid(self, uuid: UUID):
-        branch: Branch = await self.repo.delete_by_uuid(uuid)
-        return branch
+        if branch := await self.repo.delete_by_uuid(uuid):
+            return branch
+        raise NotFoundException()
     
-    async def get_all(self):
-        branches: List[Branch] = await self.repo.get_all()
-        return branches
+    async def get_all(self, limit: int, offset: int):
+        if branches := await self.repo.get_all(limit, offset):
+            return branches
+        raise NotFoundException()

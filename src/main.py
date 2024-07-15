@@ -1,5 +1,4 @@
 # delete any if you don't need it
-from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -49,9 +48,11 @@ app.add_middleware(
 # list of routers to include in app
 # e.g. routers = [my_app_router, users_router, auth_router]
 routers = [
-            auth_router, 
-            plans_router, plan_statuses_router, branches_router
-          ]
+    auth_router, 
+    plans_router, 
+    plan_statuses_router, 
+    branches_router
+]
 
 for router in routers:
     app.include_router(router)

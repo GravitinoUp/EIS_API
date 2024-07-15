@@ -4,7 +4,7 @@ Database models of branches app
 
 # you need to import Base from [project_name].database 
 from uuid import uuid4
-from sqlalchemy import Column, Integer, String, UUID
+from sqlalchemy import Column, String, UUID
 
 from src.database import Base
 

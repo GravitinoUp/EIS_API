@@ -4,7 +4,8 @@ plans app service and repository
 
 from typing import List
 from uuid import UUID
-from fastapi import HTTPException
+from sqlalchemy.exc import IntegrityError
+from src.exceptions import ConflictException, NotFoundException
 from src.abstract_repository import SQLAlchemyRepository, AbstractRepository
 from src.plans.models import Plan
 from src.plans.schemas import PlanCreateSchema
@@ -27,21 +28,21 @@ class PlanService:
         try:
             new_plan: Plan = await self.repo.add(plan_dict)
             return new_plan
-        except Exception as e:
-            raise HTTPException(
-                status_code=400,
-                detail=f"couldn't create plan: {e}",
-            )
+        except IntegrityError:
+            raise ConflictException()
     
     async def get_by_uuid(self, uuid: UUID):
-        plan: Plan = await self.repo.get_by_uuid(uuid)
-        return plan
+        if plan := await self.repo.get_by_uuid(uuid):
+            return plan
+        raise NotFoundException()
     
     async def delete_by_uuid(self, uuid: UUID):
-        plan: Plan = await self.repo.delete_by_uuid(uuid)
-        return plan
+        if plan := await self.repo.delete_by_uuid(uuid):
+            return plan
+        raise NotFoundException()
     
-    async def get_all(self):
-        plans: List[Plan] = await self.repo.get_all()
-        return plans
+    async def get_all(self, limit: int, offset: int):
+        if plans := await self.repo.get_all(limit, offset):
+            return plans
+        raise NotFoundException()
     

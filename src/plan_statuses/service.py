@@ -2,9 +2,9 @@
 plan_statuses app service and repository
 """
 
-from typing import List
-from fastapi import HTTPException
+from sqlalchemy.exc import IntegrityError
 
+from src.exceptions import ConflictException, NotFoundException
 from src.abstract_repository import SQLAlchemyRepository, AbstractRepository
 from src.plan_statuses.models import PlanStatus
 from src.plan_statuses.schemas import PlanStatusCreateSchema
@@ -28,21 +28,21 @@ class PlanStatusService:
         try:
             new_plan_status: PlanStatus = await self.repo.add(plan_status_dict)
             return new_plan_status
-        except Exception as e:
-            raise HTTPException(
-                status_code=400,
-                detail=f"couldn't create plan_status: {e}",
-            )
+        except IntegrityError:
+            raise ConflictException()
     
     async def get_by_id(self, id: int):
-        plan_status: PlanStatus = await self.repo.get_by_id(id)
-        return plan_status
+        if plan_status := await self.repo.get_by_id(id):
+            return plan_status
+        raise NotFoundException()
     
     async def delete_by_id(self, id: int):
-        plan_status: PlanStatus = await self.repo.delete_by_id(id)
-        return plan_status
+        if plan_status := await self.repo.delete_by_id(id):
+            return plan_status
+        raise NotFoundException()
     
-    async def get_all(self):
-        plan_statuses: List[PlanStatus] = await self.repo.get_all()
-        return plan_statuses
+    async def get_all(self, limit: int, offset: int):
+        if plan_statuses := await self.repo.get_all(limit, offset):
+            return plan_statuses
+        raise NotFoundException()
     

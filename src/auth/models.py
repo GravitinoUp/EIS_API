@@ -3,10 +3,8 @@ Database models of users app
 """
 
 # you need to import Base from [project_name].database
-import uuid
-
 from src.database import Base
-from sqlalchemy import Column, UUID, ForeignKey, String, Integer
+from sqlalchemy import Column, ForeignKey, String, Integer
 from sqlalchemy.orm import relationship
 
 
