@@ -1,12 +1,16 @@
 # delete any if you don't need it
+from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 # import from your apps routers
 # e.g. - from src.your_app.views import my_router
 
-from src.plans.views import router as plans_router
 from src.auth.views import router as auth_router
+
+from src.plans.views import router as plans_router
+from src.plan_statuses.views import router as plan_statuses_router
+from src.branches.views import router as branches_router
 
 # import base settings
 from src.settings import (
@@ -44,6 +48,10 @@ app.add_middleware(
 # add routers to app
 # list of routers to include in app
 # e.g. routers = [my_app_router, users_router, auth_router]
-routers = [auth_router]
+routers = [
+            auth_router, 
+            plans_router, plan_statuses_router, branches_router
+          ]
+
 for router in routers:
     app.include_router(router)

@@ -4,6 +4,7 @@ You can create your own or use it as a base class.
 """
 
 from abc import ABC, abstractmethod
+from uuid import UUID
 from sqlalchemy import delete, insert, select, and_
 
 from src.database import async_session_maker
@@ -11,7 +12,7 @@ from src.database import async_session_maker
 
 class AbstractRepository(ABC):
     @abstractmethod
-    async def add_one():
+    async def add():
         raise NotImplementedError
 
     @abstractmethod
@@ -19,22 +20,30 @@ class AbstractRepository(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    async def get_one_by_id():
+    async def get_by_id():
+        raise NotImplementedError
+    
+    @abstractmethod
+    async def get_by_uuid():
         raise NotImplementedError
 
     @abstractmethod
-    async def get_one_by_data():
+    async def get_by_data():
         raise NotImplementedError
 
     @abstractmethod
-    async def delete_one_by_id():
+    async def delete_by_id():
+        raise NotImplementedError
+    
+    @abstractmethod
+    async def delete_by_uuid():
         raise NotImplementedError
     
     
 class SQLAlchemyRepository(AbstractRepository):
     model = None
 
-    async def add_one(self, data: dict):
+    async def add(self, data: dict):
         async with async_session_maker() as session:
             stmt = insert(self.model).values(**data).returning(self.model)
             res = await session.execute(statement=stmt)
@@ -42,19 +51,25 @@ class SQLAlchemyRepository(AbstractRepository):
             await session.commit()
             return res.scalar_one()
 
-    async def get_all(self, limit: int = 10):
+    async def get_all(self):
         async with async_session_maker() as session:
-            stmt = select(self.model).where(self.model.id <= limit)
+            stmt = select(self.model)
             res = await session.execute(statement=stmt)
             return res.scalars().all()
 
-    async def get_one_by_id(self, id: int):
+    async def get_by_id(self, id: int):
         async with async_session_maker() as session:
             stmt = select(self.model).filter_by(id=id)
             res = await session.execute(statement=stmt)
             return res.scalar()
+    
+    async def get_by_uuid(self, uuid: UUID):
+        async with async_session_maker() as session:
+            stmt = select(self.model).filter_by(uuid=uuid)
+            res = await session.execute(statement=stmt)
+            return res.scalar()
 
-    async def get_one_by_data(self, **filters):
+    async def get_by_data(self, **filters):
         async with async_session_maker() as session:
             stmt = select(self.model).where(
                 and_(
@@ -66,9 +81,16 @@ class SQLAlchemyRepository(AbstractRepository):
             res = await session.execute(stmt)
             return res.scalar()
 
-    async def delete_one_by_id(self, id: int):
+    async def delete_by_id(self, id: int):
         async with async_session_maker() as session:
             stmt = delete(self.model).filter_by(id=id).returning(self.model)
+            res = await session.execute(statement=stmt)
+            await session.commit()
+            return res.scalar()
+        
+    async def delete_by_uuid(self, uuid: UUID):
+        async with async_session_maker() as session:
+            stmt = delete(self.model).filter_by(uuid=uuid).returning(self.model)
             res = await session.execute(statement=stmt)
             await session.commit()
             return res.scalar()

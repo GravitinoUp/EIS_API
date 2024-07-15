@@ -13,7 +13,7 @@ from sqlalchemy.orm import relationship
 class User(Base):
     __tablename__ = 'user'
 
-    uuid = Column(UUID, primary_key=True, default=uuid.uuid4)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     role_id = Column(Integer, ForeignKey('role.id'), nullable=False)
     hashed_password: str = Column(String(50), nullable=False)
     email: str = Column(String(30), unique=True, nullable=False)

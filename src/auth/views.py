@@ -32,7 +32,7 @@ async def login(
     user: Annotated[OAuth2PasswordRequestForm, Depends()],
     service: Annotated[UserService, Depends(get_user_service)],
 ): 
-    if new_user := await service.get_one_by_data(user.username, user.password):
+    if new_user := await service.get_by_data(user.username, user.password):
         return {"access_token": sign_jwt(new_user.uuid), "token_type": "bearer"}
     raise UnauthorizedException
 
@@ -49,5 +49,5 @@ async def create_user(
     service: Annotated[UserService, Depends(get_user_service)],
     user: UserCreateSchema
 ):
-    new_user = await service.add_user(user)
+    new_user = await service.add(user)
     return {'access_token': sign_jwt(new_user.uuid), 'token_type': 'bearer'}

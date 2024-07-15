@@ -19,12 +19,12 @@ class UserService:
     def __init__(self, user_repo: AbstractRepository) -> None:
         self.users_repo: AbstractRepository = user_repo()
 
-    async def add_user(self, user: UserCreateSchema):
+    async def add(self, user: UserCreateSchema):
         user_dict: dict = user.model_dump()
         user_dict['hashed_password'] = my_hash(user_dict['password'])
         user_dict.pop('password')
         try:
-            new_user: User = await self.users_repo.add_one(user_dict)
+            new_user: User = await self.users_repo.add(user_dict)
             new_user.__delattr__('hashed_password')
             return new_user
         except Exception:
@@ -33,22 +33,22 @@ class UserService:
                 detail=f"User with data {user} already exists",
             )
     
-    async def get_one_by_id(self, id: int):
-        user: User = await self.users_repo.get_one_by_id(id)
+    async def get_by_id(self, id: int):
+        user: User = await self.users_repo.get_by_id(id)
         return user
     
-    async def get_one_by_data(self, username: str, password: str):
-        user: User = await self.users_repo.get_one_by_data(username=username, hashed_password=my_hash(password))
+    async def get_by_data(self, username: str, password: str):
+        user: User = await self.users_repo.get_by_data(username=username, hashed_password=my_hash(password))
         return user
     
-    async def update_one(self, email: str, password: str, new_password: str):
+    async def update(self, email: str, password: str, new_password: str):
         old_data: dict = {"email": email, "hashed_password": my_hash(password)}
         new_data: dict = {"hashed_password": my_hash(new_password)}
         user: User = await self.users_repo.update_one_by_data(old_data, new_data)
         return user 
     
     async def delete_by_id(self, id: int):
-        user: User = await self.users_repo.delete_one_by_id(id)
+        user: User = await self.users_repo.delete_by_id(id)
         return user
     
     async def get_all(self, limit: int = 10):

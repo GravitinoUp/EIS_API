@@ -6,4 +6,6 @@ from src.your_app.models import your_model
 """
 
 from src.auth.models import User, Role # noqa
-from src.plans.models import Plan, PlanEvent, PlanPosition, Way, PlanStatus # noqa
+from src.plans.models import Plan # noqa
+from src.plan_statuses.models import PlanStatus # noqa
+from src.branches.models import Branch # noqa
