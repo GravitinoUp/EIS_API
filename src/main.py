@@ -5,6 +5,9 @@ from fastapi.middleware.cors import CORSMiddleware
 # import from your apps routers
 # e.g. - from src.your_app.views import my_router
 
+from src.plans.views import router as plans_router
+from src.auth.views import router as auth_router
+
 # import base settings
 from src.settings import (
     APP_VERSION,
@@ -41,6 +44,6 @@ app.add_middleware(
 # add routers to app
 # list of routers to include in app
 # e.g. routers = [my_app_router, users_router, auth_router]
-routers = []
+routers = [auth_router]
 for router in routers:
     app.include_router(router)
