@@ -14,6 +14,3 @@ class PlanStatusCreateSchema(BaseModel):
     
 class PlanStatusGetSchema(PlanStatusCreateSchema):
     id: int
-    
-    # class Config:
-    #     orm_mode = True

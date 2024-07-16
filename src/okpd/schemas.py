@@ -2,28 +2,16 @@
 okpd schemas
 """
 
+from uuid import UUID
 from pydantic import BaseModel
 
 
 # define your schemas here and rename< which already exists
-class ItemBase(BaseModel):
-    ...
+class OKPDCreateShcema(BaseModel):
+    name: str
+    code: str
+    data: str
+    
 
-
-class ItemCreate(ItemBase):
-    ...
-
-
-class ItemGet(ItemBase):
-    ...
-
-
-class ItemUpdate(ItemBase):
-    ...
-
-
-class Item(ItemBase):
-    id: int
-
-    class Config:
-        orm_mode = True
+class OKPDGetSchema(OKPDCreateShcema):
+    uuid: UUID

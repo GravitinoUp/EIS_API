@@ -5,12 +5,13 @@ plans schemas
 from uuid import uuid4, UUID
 from pydantic import BaseModel, Field
 from datetime import datetime
+from typing import Optional
 
 # define your schemas here and rename< which already exists
 
 
 class PlanCreateSchema(BaseModel):
-    version: str 
+    version:  Optional[str] = "1.0"
     year: int
     number: int
     created_at: datetime
@@ -22,7 +23,4 @@ class PlanCreateSchema(BaseModel):
     
 class PlanGetSchema(PlanCreateSchema):
     uuid: UUID = Field(default_factory=uuid4)
-    
-    class Config:
-        orm_mode = True
     

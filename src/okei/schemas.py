@@ -3,27 +3,14 @@ okei schemas
 """
 
 from pydantic import BaseModel
+from typing import Optional
 
 
 # define your schemas here and rename< which already exists
-class ItemBase(BaseModel):
-    ...
-
-
-class ItemCreate(ItemBase):
-    ...
-
-
-class ItemGet(ItemBase):
-    ...
-
-
-class ItemUpdate(ItemBase):
-    ...
-
-
-class Item(ItemBase):
+class OKEICreateSchema(BaseModel):
+    full_name: str
+    short_name: Optional[str] 
+    
+    
+class OKEIGetSchema(OKEICreateSchema):
     id: int
-
-    class Config:
-        orm_mode = True

@@ -4,6 +4,7 @@ branches schemas
 
 from uuid import uuid4, UUID
 from pydantic import BaseModel, Field
+from typing import Optional
 
 
 # define your schemas here and rename< which already exists
@@ -11,11 +12,8 @@ from pydantic import BaseModel, Field
 
 class BranchCreateSchema(BaseModel):
     name: str
-    address: str = Field(default=None)
+    address: Optional[str]
     
 
 class BranchGetSchema(BranchCreateSchema):
     uuid: UUID = Field(default_factory=uuid4)
-    
-    class Config:
-        orm_mode = True

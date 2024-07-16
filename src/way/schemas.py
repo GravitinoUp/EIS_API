@@ -6,24 +6,9 @@ from pydantic import BaseModel
 
 
 # define your schemas here and rename< which already exists
-class ItemBase(BaseModel):
-    ...
+class WayCreateSchema(BaseModel):
+    name: str
+    
 
-
-class ItemCreate(ItemBase):
-    ...
-
-
-class ItemGet(ItemBase):
-    ...
-
-
-class ItemUpdate(ItemBase):
-    ...
-
-
-class Item(ItemBase):
+class WayGetSchema(BaseModel):
     id: int
-
-    class Config:
-        orm_mode = True

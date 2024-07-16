@@ -4,7 +4,8 @@ Database models of purchases app
 
 # you need to import Base from [project_name].database 
 from uuid import uuid4
-from sqlalchemy import Column, UUID, DateTime, Integer, Double, String, ForeignKey
+from sqlalchemy import Boolean, Column, UUID, DateTime, Integer, Double, String, ForeignKey
+from sqlalchemy.orm import relationship
 
 from src.database import Base
 
@@ -37,6 +38,34 @@ class Purchase(Base):
     contract_date = Column(DateTime, nullable=True)
     contragent = Column(String, nullable=True)
     approval_letter = Column(String, nullable=True)
-    purchase_type_uuid =  Column(UUID, ForeignKey("purchase_type.uuid"), nullable=False)
+    purchase_type_uuid = Column(UUID, ForeignKey("purchase_type.uuid"), nullable=False)
+    initiator_uuid = Column(UUID, ForeignKey("user.uuid"), nullable=False)
+    executor_uuid = Column(UUID, ForeignKey("organization.uuid"), nullable=False)
+    purchase_id = Column(Integer, nullable=True)
+    contract_id =  Column(Integer, nullable=True)
+    start_date = Column(DateTime, nullable=False)
+    end_application_date = Column(DateTime, nullable=False)
+    executor_date = Column(DateTime, nullable=True)
+    end_date = Column(DateTime, nullable=False)
+    end_price = Column(Double, nullable=True)
+    currency_code = Column(String, ForeignKey("currency.code"), nullable=False)
+    purchase_step_uuid = Column(UUID, ForeignKey("purchase_step.uuid"), nullable=False)
+    delivery_address = Column(String, nullable=False)
+    is_organization_fund = Column(Boolean, nullable=True)
+    application_enforcement = Column(String, nullable=True)
+    is_unilateral_refusion = Column(Boolean, nullable=True)
+    contract_enforcement = Column(String, nullable=True)
+    quality_gurantee_period = Column(Integer, nullable=True)
+    manufacturer_guarantee = Column(Integer, nullable=True)
+    warranty_obligations_enforcement = Column(String, nullable=True)
+    additionl_info = Column(String, nullable=True)
     
+    okpd = relationship("OKPD", backref="purchase")
+    okei = relationship("OKEI", backref="purchase")
+    way = relationship("Way", backref="purchase")
+    purchase_type = relationship("PurchaseType", backref="purchase")
+    initiator = relationship("User", backref="purchase")
+    executor = relationship("Organization", backref="purchase")
+    currency = relationship("Currency", backref="purchase")
+    purchase_step =  relationship("PurchaseStep", backref="purchase")
     
