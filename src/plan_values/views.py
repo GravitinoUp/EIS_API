@@ -44,7 +44,7 @@ async def create_one(
     return new_plan_value
 
 
-@router.delete('/', response_model=..., status_code=status.HTTP_204_NO_CONTENT)
+@router.delete('/', status_code=status.HTTP_204_NO_CONTENT)
 async def delete_one(
     uuid: UUID,
     service: PlanValueService = Depends(get_plan_value_service)
