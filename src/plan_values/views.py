@@ -35,7 +35,6 @@ async def get_one(
     return plan_value
 
 
-
 @router.post('/', response_model=PlanValueGetSchema, status_code=status.HTTP_201_CREATED)
 async def create_one(
     plan_value: PlanValueCreateSchema,
