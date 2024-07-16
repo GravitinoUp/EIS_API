@@ -6,7 +6,7 @@ Views controllers for tech_tasks app
 from uuid import UUID
 from fastapi import APIRouter, Depends, status
 
-from src.tech_tasks.config import (
+from src.document_types.config import (
     PREFIX,
     TAGS,
     INCLUDE_IN_SCHEMA
