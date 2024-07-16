@@ -5,8 +5,8 @@ import os
 from dotenv import load_dotenv
 
 # APIRouter settings
-PREFIX = '/auth'  
-TAGS = ['Auth'] # capitalize this if you need it
+PREFIX = '/users'  
+TAGS = ['Users'] # capitalize this if you need it
 INCLUDE_IN_SCHEMA = True 
 
 # define your config here for app users

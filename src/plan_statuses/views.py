@@ -13,7 +13,7 @@ from src.plan_statuses.config import (
 from src.plan_statuses.dependencies import get_plan_status_service
 from src.plan_statuses.schemas import PlanStatusCreateSchema, PlanStatusGetSchema
 from src.plan_statuses.service import PlanStatusService
-from src.auth.utils import oauth2_scheme
+from src.users.utils import oauth2_scheme
 
 
 router = APIRouter(

@@ -13,7 +13,7 @@ from src.purchase_events.config import (
 )
 from src.purchase_events.schemas import PurchaseEventCreateSchema, PurchaseEventGetSchema
 from src.purchase_events.dependencies import get_purchase_event_service, PurchaseEventService
-from src.auth.utils import oauth2_scheme
+from src.users.utils import oauth2_scheme
 
 
 router = APIRouter(

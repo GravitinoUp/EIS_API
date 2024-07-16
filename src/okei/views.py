@@ -12,7 +12,7 @@ from src.okei.config import (
 )
 from src.okei.schemas import OKEICreateSchema, OKEIGetSchema
 from src.okei.dependencies import get_okei_service, OKEIService
-from src.auth.utils import oauth2_scheme
+from src.users.utils import oauth2_scheme
 
 router = APIRouter(
     prefix=PREFIX,

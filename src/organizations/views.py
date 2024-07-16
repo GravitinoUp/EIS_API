@@ -12,7 +12,7 @@ from src.organizations.config import (
     INCLUDE_IN_SCHEMA
 )
 from src.organizations.schemas import OrganizationCreateSchema, OrganizationGetSchema
-from src.auth.utils import oauth2_scheme
+from src.users.utils import oauth2_scheme
 from src.organizations.dependencies import get_organization_service
 from src.organizations.service import OrganizationService
 

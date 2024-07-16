@@ -12,7 +12,7 @@ from src.documents.config import (
     INCLUDE_IN_SCHEMA
 )
 from src.documents.schemas import DocumentCreateSchema, DocumentGetSchema
-from src.auth.utils import oauth2_scheme
+from src.users.utils import oauth2_scheme
 from src.documents.dependencies import get_document_service
 from src.documents.service import DocumentService
 

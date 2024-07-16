@@ -4,9 +4,8 @@ Views controllers for branches app
 
 
 from uuid import UUID
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, status
 
-from src.exceptions import NotFoundException
 from src.branches.config import (
     PREFIX,
     TAGS,
@@ -15,7 +14,7 @@ from src.branches.config import (
 from src.branches.dependencies import get_branch_service
 from src.branches.schemas import BranchCreateSchema, BranchGetSchema
 from src.branches.service import BranchService
-from src.auth.utils import oauth2_scheme
+from src.users.utils import oauth2_scheme
 
 
 router = APIRouter(

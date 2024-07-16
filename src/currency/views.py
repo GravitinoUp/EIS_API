@@ -12,7 +12,7 @@ from src.currency.config import (
 )
 from src.currency.schemas import CurrencyCreateSchema, CurrencyGetSchema
 from src.currency.dependencies import get_currency_service, CurrencyService
-from src.auth.utils import oauth2_scheme
+from src.users.utils import oauth2_scheme
 
 
 router = APIRouter(

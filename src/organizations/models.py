@@ -15,7 +15,7 @@ class Organization(Base):
 
     uuid = Column(UUID, primary_key=True, default=uuid4)
     organization_type_uuid = Column(UUID, ForeignKey('organization_type.uuid'), nullable=False)
-    contact_person_uuid = Column(UUID, nullable=False) # TODO: add backref and Foreignkey!!!
+    contact_person_uuid = Column(UUID, ForeignKey('user.uuid'), nullable=False)
     full_name = Column(String(50), nullable=False)
     short_name = Column(String(20), nullable=False)
     register_number = Column(Integer, nullable=False, unique=True)
@@ -34,5 +34,6 @@ class Organization(Base):
     web_site = Column(String, nullable=False)
 
     organization_type = relationship("OrganizationType", backref="organization")
+    contact_person = relationship("User", backref="organization")
 
     

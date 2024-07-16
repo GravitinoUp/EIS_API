@@ -9,7 +9,7 @@ from fastapi import APIRouter, Depends, status
 from src.organization_types.service import OrganizationTypeService
 from src.organization_types.dependencies import get_organization_type_service
 from src.organization_types.schemas import OrganizationTypeCreateSchema, OrganizationTypeGetSchema
-from src.auth.utils import oauth2_scheme
+from src.users.utils import oauth2_scheme
 from src.organization_types.config import (
     PREFIX,
     TAGS,

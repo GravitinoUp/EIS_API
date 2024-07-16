@@ -13,7 +13,7 @@ from src.purchase_steps.config import (
 )
 from src.purchase_steps.schemas import PurchaseStepCreateSchema, PurchcaseStepGetSchema
 from src.purchase_steps.dependencies import get_purchase_step_service, PurchaseStepService
-from src.auth.utils import oauth2_scheme
+from src.users.utils import oauth2_scheme
 
 
 router = APIRouter(

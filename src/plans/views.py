@@ -15,7 +15,7 @@ from src.plans.schemas import (
 )
 from src.plans.dependencies import get_plan_service
 from src.plans.service import PlanService
-from src.auth.utils import oauth2_scheme
+from src.users.utils import oauth2_scheme
 
 
 router = APIRouter(

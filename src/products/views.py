@@ -13,7 +13,7 @@ from src.products.config import (
 )
 from src.products.schemas import ProductCreateSchema, ProductGetSchema
 from src.products.dependencies import get_product_service, ProductService
-from src.auth.utils import oauth2_scheme
+from src.users.utils import oauth2_scheme
 
 
 router = APIRouter(

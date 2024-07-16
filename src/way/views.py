@@ -12,7 +12,7 @@ from src.way.config import (
 )
 from src.way.schemas import WayCreateSchema, WayGetSchema
 from src.way.dependencies import get_way_service, WayRepository
-from src.auth.utils import oauth2_scheme
+from src.users.utils import oauth2_scheme
 
 
 router = APIRouter(

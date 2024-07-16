@@ -13,7 +13,7 @@ from src.purchase_products.config import (
 )
 from src.purchase_products.schemas import PurchaseProductSchema
 from src.purchase_products.dependencies import get_purchase_product_service, PurchaseProductService
-from src.auth.utils import oauth2_scheme
+from src.users.utils import oauth2_scheme
 
 
 router = APIRouter(

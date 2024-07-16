@@ -12,7 +12,7 @@ from src.tech_tasks.config import (
     INCLUDE_IN_SCHEMA
 )
 from src.tech_tasks.schemas import TechTaskCreateSchema, TechTaskGetSchema
-from src.auth.utils import oauth2_scheme
+from src.users.utils import oauth2_scheme
 from src.tech_tasks.dependencies import get_tech_task_service
 from src.tech_tasks.service import TechTaskService
 

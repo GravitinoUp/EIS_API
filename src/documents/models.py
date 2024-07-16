@@ -19,13 +19,12 @@ class Document(Base):
     purchase_uuid = Column(UUID, ForeignKey('purchase.uuid'), nullable=False)
     executor_uuid = Column(UUID, ForeignKey('organization.uuid'), nullable=False)
     customer_uuid = Column(UUID, ForeignKey('organization.uuid'), nullable=False)
-    # TODO: person_executor_uuid
-    # TODO: person_customer_uuid
+    person_executor_uuid = Column(UUID, ForeignKey('user.uuid'), nullable=False)
+    person_executor_uuid = Column(UUID, ForeignKey('user.uuid'), nullable=False)
     
-
     document_type = relationship('DocumentType', backref='document')
     purchase = relationship('Purchase', backref='document')
     executor = relationship('Organization', backref='document')
     customer = relationship('Organization', backref='document')
-    # TODO: person_executor_uuid
-    # TODO: person_customer_uuid
+    person_executor = relationship('User', backref='document')
+    person_customer = relationship('User', backref='document')

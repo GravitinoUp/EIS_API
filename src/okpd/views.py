@@ -13,7 +13,7 @@ from src.okpd.config import (
 )
 from src.okpd.schemas import OKPDCreateShcema, OKPDGetSchema
 from src.okpd.dependencies import get_okpd_service, OKPDService
-from src.auth.utils import oauth2_scheme
+from src.users.utils import oauth2_scheme
 
 
 router = APIRouter(

@@ -12,7 +12,7 @@ from src.document_types.config import (
     INCLUDE_IN_SCHEMA
 )
 from src.document_types.schemas import DocumentTypeCreateSchema, DocumentTypeGetSchema
-from src.auth.utils import oauth2_scheme
+from src.users.utils import oauth2_scheme
 from src.document_types.dependencies import get_document_type_service
 from src.document_types.service import DocumentTypeService
 

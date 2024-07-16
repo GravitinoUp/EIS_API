@@ -9,7 +9,7 @@ from fastapi import APIRouter, Depends, status
 from src.plan_values.service import PlanValueService
 from src.plan_values.dependencies import get_plan_value_service
 from src.plan_values.schemas import PlanValueCreateSchema, PlanValueGetSchema
-from src.auth.utils import oauth2_scheme
+from src.users.utils import oauth2_scheme
 from src.plan_values.config import (
     PREFIX,
     TAGS,
