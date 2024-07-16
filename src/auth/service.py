@@ -3,6 +3,7 @@ users app service and repository
 """
 
 from typing import List
+from uuid import UUID
 from fastapi import HTTPException
 
 from src.auth.models import User
@@ -33,8 +34,8 @@ class UserService:
                 detail=f"User with data {user} already exists",
             )
     
-    async def get_by_id(self, id: int):
-        user: User = await self.users_repo.get_by_id(id)
+    async def get_by_uuid(self, uuid: UUID):
+        user: User = await self.users_repo.get_by_uuid(uuid)
         return user
     
     async def get_by_data(self, username: str, password: str):
@@ -47,8 +48,8 @@ class UserService:
         user: User = await self.users_repo.update_one_by_data(old_data, new_data)
         return user 
     
-    async def delete_by_id(self, id: int):
-        user: User = await self.users_repo.delete_by_id(id)
+    async def delete_by_uuid(self, uuid: UUID):
+        user: User = await self.users_repo.delete_by_uuid(uuid)
         return user
     
     async def get_all(self, limit: int = 10):
