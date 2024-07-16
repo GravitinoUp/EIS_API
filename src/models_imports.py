@@ -9,3 +9,4 @@ from src.auth.models import User, Role # noqa
 from src.plans.models import Plan # noqa
 from src.plan_statuses.models import PlanStatus # noqa
 from src.branches.models import Branch # noqa
+from src.plan_values.models import PlanValue # noqa
