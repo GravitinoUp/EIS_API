@@ -10,7 +10,7 @@ from src.database import Base
 
 
 class PurchaseStep(Base):
-    __tablename__ = "purchase_steps"
+    __tablename__ = "purchase_step"
     
     uuid = Column(UUID, primary_key=True, default=uuid4)
     name = Column(String)
