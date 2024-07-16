@@ -1,7 +1,7 @@
 """
-Custom way exceptions
+Custom way src.exceptions
 """
 
 from fastapi import HTTPException, status
 
-# define way exceptions here
+# define way src.exceptions here

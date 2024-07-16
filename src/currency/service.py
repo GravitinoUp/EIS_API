@@ -4,7 +4,7 @@ currency app service and repository
 
 from sqlalchemy.exc import IntegrityError
 
-from exceptions import ConflictException, NotFoundException
+from src.exceptions import ConflictException, NotFoundException
 from src.abstract_repository import SQLAlchemyRepository, AbstractRepository
 from src.currency.models import Currency
 from src.currency.schemas import CurrencyCreateSchema

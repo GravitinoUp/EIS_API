@@ -1,7 +1,7 @@
 """
-Custom products exceptions
+Custom products src.exceptions
 """
 
 from fastapi import HTTPException, status
 
-# define products exceptions here
+# define products src.exceptions here

@@ -15,5 +15,5 @@ class PurchaseProduct(Base):
     purchase_uuid = Column(UUID, primary_key=True, default=uuid4)
     product_uuid = Column(UUID, ForeignKey('product.uuid'), primary_key=True)
     quantity = Column(Integer, nullable=False)
-    
-    product = relationship('Product', backref='purchase_product')
+
+    product = relationship('Product', foreign_keys=[product_uuid])

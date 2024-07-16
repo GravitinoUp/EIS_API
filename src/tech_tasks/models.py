@@ -17,4 +17,4 @@ class TechTask(Base):
     purchase_uuid = Column(UUID, ForeignKey('purchase.uuid'), nullable=False)
     data_json = Column(JSON, nullable=False)
 
-    purchase = relationship("Purchase", backref="technical_task")
+    purchase = relationship("Purchase", foreign_keys=[purchase_uuid])

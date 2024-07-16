@@ -1,7 +1,7 @@
 """
-Custom documents exceptions
+Custom documents src.exceptions
 """
 
 from fastapi import HTTPException, status
 
-# define documents exceptions here
+# define documents src.exceptions here

@@ -1,5 +1,5 @@
 """
-Define your global custom exceptions in this file
+Define your global custom src.exceptions in this file
 """
 
 from fastapi import HTTPException, status

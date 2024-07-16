@@ -4,7 +4,7 @@ okpd app service and repository
 from uuid import UUID
 from sqlalchemy.exc import IntegrityError
 
-from exceptions import ConflictException, NotFoundException
+from src.exceptions import ConflictException, NotFoundException
 from src.abstract_repository import SQLAlchemyRepository, AbstractRepository
 from src.okpd.models import OKPD
 from src.okpd.schemas import OKPDCreateShcema, OKPDGetSchema

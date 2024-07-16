@@ -2,7 +2,7 @@
 FastAPI dependencies for the app users
 """
 
-from src.auth.service import UserService, UserRepository
+from src.users.service import UserService, UserRepository
 
 
 def get_user_service():

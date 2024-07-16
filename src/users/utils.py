@@ -2,21 +2,22 @@
 Utils functions for users app
 """
 import time
+from uuid import UUID
 from fastapi.security import OAuth2PasswordBearer
 import jwt
 import hashlib
 
-from src.auth.config import JWT_SECRET, JWT_ALGORITHM, EXPIRATION_TIME
+from src.users.config import JWT_SECRET, JWT_ALGORITHM, EXPIRATION_TIME
 
 
 # JWT
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="users/login")
 
 
-def sign_jwt(user_id: int) -> dict:
+def sign_jwt(user_uuid: UUID) -> dict:
     payload = {
-        "user_id": str(user_id),
+        "user_uuid": str(user_uuid),
         "exp": time.time() + EXPIRATION_TIME
     }
     return jwt.encode(payload, JWT_SECRET, algorithm=JWT_ALGORITHM)

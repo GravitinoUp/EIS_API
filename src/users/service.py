@@ -1,15 +1,16 @@
 """
 users app service and repository
 """
-
 from typing import List
 from uuid import UUID
 from fastapi import HTTPException
+from sqlalchemy.exc import IntegrityError
 
-from src.auth.models import User
-from src.auth.schemas import UserCreateSchema
+from src.users.models import User
+from src.users.schemas import UserCreateSchema
 from src.abstract_repository import SQLAlchemyRepository, AbstractRepository
-from src.auth.utils import my_hash
+from src.users.utils import my_hash
+from src.exceptions import ConflictException
 
 
 class UserRepository(SQLAlchemyRepository):
@@ -28,11 +29,8 @@ class UserService:
             new_user: User = await self.users_repo.add(user_dict)
             new_user.__delattr__('hashed_password')
             return new_user
-        except Exception:
-            raise HTTPException(
-                status_code=400,
-                detail=f"User with data {user} already exists",
-            )
+        except IntegrityError:
+            raise ConflictException()
     
     async def get_by_uuid(self, uuid: UUID):
         user: User = await self.users_repo.get_by_uuid(uuid)

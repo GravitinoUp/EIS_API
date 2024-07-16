@@ -1,7 +1,7 @@
 """
-Custom currency exceptions
+Custom currency src.exceptions
 """
 
 from fastapi import HTTPException, status
 
-# define currency exceptions here
+# define currency src.exceptions here

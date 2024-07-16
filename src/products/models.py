@@ -18,4 +18,4 @@ class Product(Base):
     price = Column(Double, nullable=False)
     okei_id = Column(Integer, ForeignKey("okei.id"), nullable=False)
     
-    okei = relationship("Okei", backref="products")
+    okei = relationship("OKEI", foreign_keys=[okei_id])

@@ -4,7 +4,7 @@ purchase_steps app service and repository
 from uuid import UUID
 from sqlalchemy.exc import IntegrityError
 
-from exceptions import ConflictException, NotFoundException
+from src.exceptions import ConflictException, NotFoundException
 from src.abstract_repository import SQLAlchemyRepository, AbstractRepository
 from src.purchase_steps.models import PurchaseStep
 from src.purchase_steps.schemas import PurchaseStepCreateSchema, PurchcaseStepGetSchema

@@ -7,15 +7,15 @@ from typing import Annotated
 from fastapi.security import OAuth2PasswordRequestForm
 
 from src.exceptions import UnauthorizedException
-from src.auth.config import (
+from src.users.config import (
     PREFIX,
     TAGS,
     INCLUDE_IN_SCHEMA
 )
-from src.auth.schemas import UserCreateSchema
-from src.auth.service import UserService
-from src.auth.dependencies import get_user_service
-from src.auth.utils import decode_jwt, sign_jwt # noqa
+from src.users.schemas import UserCreateSchema
+from src.users.service import UserService
+from src.users.dependencies import get_user_service
+from src.users.utils import decode_jwt, sign_jwt # noqa
 
 
 router = APIRouter(
@@ -30,7 +30,7 @@ async def login(
     service: Annotated[UserService, Depends(get_user_service)],
 ): 
     if new_user := await service.get_by_data(user.username, user.password):
-        return {"access_token": sign_jwt(new_user.id), "token_type": "bearer"}
+        return {"access_token": sign_jwt(new_user.uuid), "token_type": "bearer"}
     raise UnauthorizedException
 
 
@@ -40,4 +40,4 @@ async def create_user(
     user: UserCreateSchema
 ):
     new_user = await service.add(user)
-    return {'access_token': sign_jwt(new_user.id), 'token_type': 'bearer'}
+    return {'access_token': sign_jwt(new_user.uuid), 'token_type': 'bearer'}

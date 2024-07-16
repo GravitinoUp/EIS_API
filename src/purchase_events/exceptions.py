@@ -1,7 +1,7 @@
 """
-Custom purchase_events exceptions
+Custom purchase_events src.exceptions
 """
 
 from fastapi import HTTPException, status
 
-# define purchase_events exceptions here
+# define purchase_events src.exceptions here

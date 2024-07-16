@@ -19,5 +19,5 @@ class PurchaseEvent(Base):
     purchase_uuid = Column(UUID, ForeignKey("purchase.uuid"), nullable=False)
     user_uuid = Column(UUID, ForeignKey("user.uuid"), nullable=False)   
     
-    purchase = relationship("Purchase", backref="purchase_events")
-    user = relationship("User", backref="purchase_events")
+    purchase = relationship("Purchase", foreign_keys=[purchase_uuid])
+    user = relationship("User", foreign_keys=[user_uuid])

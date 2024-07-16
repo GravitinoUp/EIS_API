@@ -1,7 +1,7 @@
 """
-Custom plan_values exceptions
+Custom plan_values src.exceptions
 """
 
 from fastapi import HTTPException, status
 
-# define plan_values exceptions here
+# define plan_values src.exceptions here

@@ -1,7 +1,7 @@
 """
-Custom users exceptions
+Custom users src.exceptions
 """
 
 from fastapi import HTTPException, status
 
-# define users exceptions here
+# define users src.exceptions here

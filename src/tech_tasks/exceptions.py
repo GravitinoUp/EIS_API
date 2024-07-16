@@ -1,7 +1,7 @@
 """
-Custom tech_tasks exceptions
+Custom tech_tasks src.exceptions
 """
 
 from fastapi import HTTPException, status
 
-# define tech_tasks exceptions here
+# define tech_tasks src.exceptions here

@@ -24,6 +24,6 @@ class Plan(Base):
     branch_uuid = Column(UUID, ForeignKey('branch.uuid'), nullable=False)
     status_id = Column(Integer, ForeignKey('plan_status.id'), nullable=False)
 
-    status = relationship("PlanStatus", backref="plan")
-    branch = relationship("Branch", backref="plan")
+    status = relationship("PlanStatus", foreign_keys=[status_id])
+    branch = relationship("Branch", foreign_keys=[branch_uuid])
     

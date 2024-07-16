@@ -5,7 +5,7 @@ purchase_products app service and repository
 from uuid import UUID
 from sqlalchemy.exc import IntegrityError
 
-from exceptions import ConflictException, NotFoundException
+from src.exceptions import ConflictException, NotFoundException
 from src.abstract_repository import SQLAlchemyRepository, AbstractRepository
 from src.purchase_products.models import PurchaseProduct
 from src.purchase_products.schemas import PurchaseProductSchema

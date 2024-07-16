@@ -15,9 +15,9 @@ class PurchaseCreateSchema(BaseModel):
     kosgu_uuid: UUID
     purchase_offer_number: Optional[int]
     okpd_uuid: UUID
-    object_name: Optional[str]
-    okei_uuidd: UUID
-    result_name: str
+    object_name: str
+    okei_id: int
+    result_name: Optional[str]
     npa_date: datetime
     npa_number: str
     start_max_price: float
@@ -25,14 +25,14 @@ class PurchaseCreateSchema(BaseModel):
     purchase_public_discussion: Optional[str]
     authorized_instution: Optional[str]
     organizer_name: Optional[str]
-    placement_month: int 
+    placement_month: Optional[int] 
     way_id: int
     small_buisness: Optional[str]
     price_value: float
     savings: Optional[float]
     contract_number: str
     contract_date: datetime
-    contragent: str
+    contragent: Optional[str]
     approval_letter: Optional[str]
     purchase_type_uuid: UUID
     initiator_uuid: UUID    
@@ -41,15 +41,15 @@ class PurchaseCreateSchema(BaseModel):
     contract_id: int
     start_date: datetime
     end_application_date: Optional[datetime]
-    executor_date: datetime
+    executor_date: Optional[datetime]
     end_date: datetime
     end_price: float
     currency_code: str
     purchase_step_uuid: UUID
-    delivery_address: str
-    is_organization_fund: bool
+    delivery_address: Optional[str]
+    is_organization_fund: Optional[bool]
     application_enforcement: Optional[str]
-    is_unilateral_refusion: bool
+    is_unilateral_refusion: Optional[bool]
     contract_enforcement: Optional[str]
     quality_gurantee_period: Optional[int]
     manufacturer_guarantee: Optional[int]

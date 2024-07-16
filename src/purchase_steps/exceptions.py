@@ -1,7 +1,7 @@
 """
-Custom purchase_steps exceptions
+Custom purchase_steps src.exceptions
 """
 
 from fastapi import HTTPException, status
 
-# define purchase_steps exceptions here
+# define purchase_steps src.exceptions here

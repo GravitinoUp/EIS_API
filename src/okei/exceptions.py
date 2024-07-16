@@ -1,7 +1,7 @@
 """
-Custom okei exceptions
+Custom okei src.exceptions
 """
 
 from fastapi import HTTPException, status
 
-# define okei exceptions here
+# define okei src.exceptions here

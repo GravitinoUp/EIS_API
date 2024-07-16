@@ -1,7 +1,7 @@
 """
-Custom okpd exceptions
+Custom okpd src.exceptions
 """
 
 from fastapi import HTTPException, status
 
-# define okpd exceptions here
+# define okpd src.exceptions here

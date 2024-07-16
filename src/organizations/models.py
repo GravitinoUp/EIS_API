@@ -33,7 +33,7 @@ class Organization(Base):
     additional_info = Column(String, nullable=False)
     web_site = Column(String, nullable=False)
 
-    organization_type = relationship("OrganizationType", backref="organization")
-    contact_person = relationship("User", backref="organization")
+    organization_type = relationship("OrganizationType", foreign_keys=[organization_type_uuid])
+    contact_person = relationship("User", foreign_keys=[contact_person_uuid])
 
     

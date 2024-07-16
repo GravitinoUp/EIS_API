@@ -3,7 +3,7 @@ way app service and repository
 """
 from sqlalchemy.exc import IntegrityError
 
-from exceptions import ConflictException, NotFoundException
+from src.exceptions import ConflictException, NotFoundException
 from src.abstract_repository import SQLAlchemyRepository, AbstractRepository
 from src.way.schemas import WayCreateSchema
 from src.way.models import Way 

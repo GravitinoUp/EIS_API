@@ -5,7 +5,7 @@ purchase_type app service and repository
 from uuid import UUID
 from sqlalchemy.exc import IntegrityError
 
-from exceptions import ConflictException, NotFoundException
+from src.exceptions import ConflictException, NotFoundException
 from src.abstract_repository import SQLAlchemyRepository, AbstractRepository
 from src.purchase_type.models import PurchaseType
 from src.purchase_type.schemas import PurchaseTypeCreateSchema

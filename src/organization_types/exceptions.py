@@ -1,7 +1,7 @@
 """
-Custom organization_types exceptions
+Custom organization_types src.exceptions
 """
 
 from fastapi import HTTPException, status
 
-# define organization_types exceptions here
+# define organization_types src.exceptions here

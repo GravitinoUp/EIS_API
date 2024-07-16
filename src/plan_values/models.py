@@ -19,4 +19,4 @@ class PlanValue(Base):
     count = Column(Integer, nullable=False)
     avg_price = Column(Double, nullable=False)
 
-    purchase = relationship("Purchase", backref="plan_value")
+    purchase = relationship("Purchase", foreign_keys=[purchase_uuid])
