@@ -1,5 +1,5 @@
 """
-Utils functions for plan_values app
+Utils functions for plans app
 """
 
 # define the utility functions here
