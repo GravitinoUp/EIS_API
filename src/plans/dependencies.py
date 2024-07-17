@@ -3,8 +3,8 @@ FastAPI dependencies for the app plans
 """
 
 # define your dependencies here
-from src.plans.service import PlanRepository, PlanService
+from src.plans.service import PlanRepository, PurchaseRepository, PlanPurchaseRepository, PlanService
 
 
 def get_plan_service():
-    return PlanService(PlanRepository)
+    return PlanService(PlanRepository(), PurchaseRepository(), PlanPurchaseRepository())

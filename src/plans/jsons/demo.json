@@ -1,0 +1,21 @@
+{
+    "plan_uuid": "d5d5c52a-f8da-4926-aa09-c00d68584b56",
+    "created_at": "2024-07-10T17:08:16.269Z",
+    "plan_year": 2024,
+    "plan_status_name": "На подготовке",
+    "plan_purchases": 
+    [
+        {
+            "purhcase_uuid": "d5d5c52a-f8da-4926-aa09-c00d68584b56",
+            "purchase_year": 2023,
+            "expense_type_code": "4554807688324000005",
+            "okpd2": "4554807688324000005",
+
+            "expense_total": 1,
+            "expense_fisrt_year": 1, 
+            "expense_second_year": 1,
+            "expense_third_year": 1,
+            "expense_next_years": 1
+        }
+    ]
+}

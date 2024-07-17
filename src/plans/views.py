@@ -21,7 +21,7 @@ router = APIRouter(
     prefix=PREFIX,
     tags=TAGS,
     include_in_schema=INCLUDE_IN_SCHEMA,
-    dependencies=[Depends(oauth2_scheme)]
+    # dependencies=[Depends(oauth2_scheme)]
 )
 
 
