@@ -1,12 +1,12 @@
 from uuid import UUID
 from sqlalchemy.exc import IntegrityError
-from sqlalchemy import select
-from typing import Dict, List
+from sqlalchemy import delete, select
+from typing import List
 
-from src.abstract_repository import SQLAlchemyRepository, AbstractRepository
+from src.abstract_repository import SQLAlchemyRepository
 from src.exceptions import ConflictException, NotFoundException
 from src.plans.models import Plan, Purchase, PlanPurchase
-from src.plans.schemas import PlanCreateSchema, PlanGetSchema, PurchaseGetSchema, PlanBaseSchema
+from src.plans.schemas import PlanCreateSchema, PlanGetSchema, PurchaseGetSchema
 from src.database import async_session_maker
 
 
@@ -26,6 +26,15 @@ class PlanPurchaseRepository(SQLAlchemyRepository):
             stmt = select(self.model).filter_by(plan_uuid=plan_uuid)
             res = await session.execute(statement=stmt)
             return res.scalars().all()
+        
+    async def delete_by_uuid(self, uuid: UUID):
+        async with async_session_maker() as session:
+            stmt = delete(self.model).filter_by(plan_uuid=uuid).returning(self.model)
+            res = await session.execute(statement=stmt)
+            await session.commit()
+            return res.scalar()
+        
+    
 
 
 class PlanService:
@@ -69,8 +78,15 @@ class PlanService:
         return plan_schema
 
     async def delete_by_uuid(self, uuid: UUID):
-        if not await self.plan_repo.delete_by_uuid(uuid):
+        plan = await self.plan_repo.delete_by_uuid(uuid)
+        if plan is None:
             raise NotFoundException()
+        purchases = await self._get_purchases_for_plan(plan.uuid)
+        for purchase in purchases:
+            await self.purchase_repo.delete_by_uuid(purchase.uuid)
+            await self.plan_purchase_repo.delete_by_uuid(plan.uuid)
+        
+        
 
     async def get_all(self, limit: int, offset: int) -> List[PlanGetSchema]:
         plans = await self.plan_repo.get_all(limit, offset)
@@ -84,6 +100,8 @@ class PlanService:
                 purchases=purchases
             )
             plan_schemas.append(plan_schema)
+        if not plan_schemas:
+            raise NotFoundException()
         return plan_schemas
 
     async def _get_purchases_for_plan(self, plan_uuid: UUID) -> List[PurchaseGetSchema]:
