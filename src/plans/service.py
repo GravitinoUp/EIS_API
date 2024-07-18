@@ -35,8 +35,6 @@ class PlanPurchaseRepository(SQLAlchemyRepository):
             return res.scalar()
         
     
-
-
 class PlanService:
     def __init__(self, plan_repo: PlanRepository, purchase_repo: PurchaseRepository, plan_purchase_repo: PlanPurchaseRepository):
         self.plan_repo = plan_repo
@@ -86,8 +84,6 @@ class PlanService:
             await self.purchase_repo.delete_by_uuid(purchase.uuid)
             await self.plan_purchase_repo.delete_by_uuid(plan.uuid)
         
-        
-
     async def get_all(self, limit: int, offset: int) -> List[PlanGetSchema]:
         plans = await self.plan_repo.get_all(limit, offset)
         if plans is None:
