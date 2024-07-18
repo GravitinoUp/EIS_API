@@ -1,7 +1,9 @@
 from uuid import UUID
 from sqlalchemy.exc import IntegrityError
-from sqlalchemy import delete, select
+from sqlalchemy import delete, select, update
 from typing import List
+import time
+import asyncio
 
 from src.abstract_repository import SQLAlchemyRepository
 from src.exceptions import ConflictException, NotFoundException
@@ -9,14 +11,20 @@ from src.plans.models import Plan, PlanPurchase
 from src.purchases.models import Purchase
 from src.plans.schemas import PlanCreateSchema, PlanGetSchema, PurchaseGetSchema
 from src.database import async_session_maker
+from src.purchases.service import PurchaseRepository
 
 
 class PlanRepository(SQLAlchemyRepository):
     model = Plan
-
-
-class PurchaseRepository(SQLAlchemyRepository):
-    model = Purchase
+    
+    async def update_status_by_uuid(self, uuid: UUID):
+        await asyncio.sleep(30)
+        async with async_session_maker() as session:
+            stmt = update(self.model).filter_by(uuid=uuid).values(
+                status='Опубликован',
+            )
+            await session.execute(stmt)
+            await session.commit()
 
 
 class PlanPurchaseRepository(SQLAlchemyRepository):
@@ -53,12 +61,16 @@ class PlanService:
                     "plan_uuid": new_plan.uuid,
                     "purchase_uuid": new_purchase.uuid
                 })
+                asyncio.create_task(self.purchase_repo.update_status_by_uuid(uuid=new_purchase.uuid)) # add background task
                 purchases.append(PurchaseGetSchema.model_validate(new_purchase, from_attributes=True))
 
             new_plan_schema = PlanGetSchema(
                 **new_plan.__dict__,
                 purchases=purchases
             )
+            
+            asyncio.create_task(self.plan_repo.update_status_by_uuid(uuid=new_plan.uuid)) # add background task
+            
             return new_plan_schema
         except IntegrityError as e:
             print(e)
