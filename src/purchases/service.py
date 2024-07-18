@@ -2,15 +2,14 @@
 purchases app service and repository
 """
 
-import time
+import random
 from uuid import UUID
-from sqlalchemy import select, update
-from sqlalchemy.exc import IntegrityError
+from sqlalchemy import update
 import asyncio
 
 from src.abstract_repository import SQLAlchemyRepository, AbstractRepository
 from src.purchases.models import Purchase
-from src.exceptions import ConflictException, NotFoundException
+from src.exceptions import NotFoundException
 from src.purchases.schemas import PurchaseCreateSchema
 from src.database import async_session_maker
 
@@ -19,7 +18,7 @@ class PurchaseRepository(SQLAlchemyRepository):
     model = Purchase
     
     async def update_status_by_uuid(self, uuid: UUID):
-        await asyncio.sleep(30)
+        await asyncio.sleep(random.randint(120, 300))
         async with async_session_maker() as session:
             stmt = update(self.model).filter_by(uuid=uuid).values(
                 status='Опубликован',
