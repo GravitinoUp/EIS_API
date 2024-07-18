@@ -1,11 +1,13 @@
 from uuid import UUID
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy import select
 from typing import Dict, List
 
 from src.abstract_repository import SQLAlchemyRepository, AbstractRepository
 from src.exceptions import ConflictException, NotFoundException
 from src.plans.models import Plan, Purchase, PlanPurchase
 from src.plans.schemas import PlanCreateSchema, PlanGetSchema, PurchaseGetSchema, PlanBaseSchema
+from src.database import async_session_maker
 
 
 class PlanRepository(SQLAlchemyRepository):
@@ -18,6 +20,12 @@ class PurchaseRepository(SQLAlchemyRepository):
 
 class PlanPurchaseRepository(SQLAlchemyRepository):
     model = PlanPurchase
+
+    async def get_all(self, plan_uuid: UUID):
+        async with async_session_maker() as session:
+            stmt = select(self.model).filter_by(plan_uuid=plan_uuid)
+            res = await session.execute(statement=stmt)
+            return res.scalars().all()
 
 
 class PlanService:
@@ -44,11 +52,13 @@ class PlanService:
                 purchases=purchases
             )
             return new_plan_schema
-        except IntegrityError:
+        except IntegrityError as e:
+            print(e)
             raise ConflictException()
 
     async def get_by_uuid(self, uuid: UUID) -> PlanGetSchema:
-        if plan := await self.plan_repo.get_by_uuid(uuid):
+        plan = await self.plan_repo.get_by_uuid(uuid)
+        if plan is None:
             raise NotFoundException()
 
         purchases = await self._get_purchases_for_plan(plan.uuid)
@@ -63,10 +73,9 @@ class PlanService:
             raise NotFoundException()
 
     async def get_all(self, limit: int, offset: int) -> List[PlanGetSchema]:
-        if plans := await self.plan_repo.get_all(limit, offset):
-            print('plan not found')
+        plans = await self.plan_repo.get_all(limit, offset)
+        if plans is None:
             raise NotFoundException()
-
         plan_schemas = []
         for plan in plans:
             purchases = await self._get_purchases_for_plan(plan.uuid)
@@ -78,7 +87,7 @@ class PlanService:
         return plan_schemas
 
     async def _get_purchases_for_plan(self, plan_uuid: UUID) -> List[PurchaseGetSchema]:
-        plan_purchases = await self.plan_purchase_repo.get_by_uuid(plan_uuid)
+        plan_purchases = await self.plan_purchase_repo.get_all(plan_uuid=plan_uuid)
         purchases = []
         for plan_purchase in plan_purchases:
             purchase = await self.purchase_repo.get_by_uuid(plan_purchase.purchase_uuid)

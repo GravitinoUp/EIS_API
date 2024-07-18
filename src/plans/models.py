@@ -37,7 +37,8 @@ class Purchase(Base):
 class PlanPurchase(Base):
     __tablename__ = "plan_purchases"
     
-    plan_uuid = Column(UUID, ForeignKey("plans.uuid"), primary_key=True)
+    uuid = Column(UUID, primary_key=True, default=uuid4)
+    plan_uuid = Column(UUID, ForeignKey("plans.uuid"))
     purchase_uuid = Column(UUID, ForeignKey("purchases.uuid"))
     
     plan = relationship("Plan", foreign_keys=[plan_uuid])
