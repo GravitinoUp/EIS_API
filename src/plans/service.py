@@ -5,7 +5,8 @@ from typing import List
 
 from src.abstract_repository import SQLAlchemyRepository
 from src.exceptions import ConflictException, NotFoundException
-from src.plans.models import Plan, Purchase, PlanPurchase
+from src.plans.models import Plan, PlanPurchase
+from src.purchases.models import Purchase
 from src.plans.schemas import PlanCreateSchema, PlanGetSchema, PurchaseGetSchema
 from src.database import async_session_maker
 
@@ -105,5 +106,6 @@ class PlanService:
         purchases = []
         for plan_purchase in plan_purchases:
             purchase = await self.purchase_repo.get_by_uuid(plan_purchase.purchase_uuid)
-            purchases.append(PurchaseGetSchema.model_validate(purchase, from_attributes=True))
+            if purchase is not None:
+                purchases.append(PurchaseGetSchema.model_validate(purchase, from_attributes=True))
         return purchases

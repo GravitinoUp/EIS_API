@@ -7,3 +7,5 @@ from src.your_app.models import your_model
 
 from src.users.models import * # noqa
 from src.plans.models import * # noqa
+from src.purchases.models import * # noqa
+

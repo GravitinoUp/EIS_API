@@ -3,9 +3,9 @@ App info, which includes in FastAPI object
 e.g - app = FastAPI(title='my_app', version='0.1') e.t.c
 """
 
-APP_VERSION = '0.1'
-APP_TITLE = 'FastAPI app'
-DESCRIPTION = 'Your desc'
+APP_VERSION = '0.2 Beta'
+APP_TITLE = 'EIS clone'
+DESCRIPTION = 'Simple mock-service for EIS'
 
 # WARNING: change this to False on release
 DEBUG = True

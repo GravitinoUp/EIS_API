@@ -4,30 +4,14 @@ plans schemas
 
 from datetime import datetime
 from uuid import UUID
-from pydantic import BaseModel, ConfigDict
-from typing import List
+from pydantic import BaseModel
+from typing import List, Optional
 
-
-class PurchaseCreateSchema(BaseModel):
-    year: int
-    expense_type_code: int
-    okpd2: int
-
-    expense_total: float
-    expense_first_year: float
-    expense_second_year: float
-    expense_third_year: float
-    expense_next_years: float
-    
-    
-class PurchaseGetSchema(PurchaseCreateSchema):
-    uuid: UUID
+from src.purchases.schemas import PurchaseCreateSchema, PurchaseGetSchema
 
 
 class PlanBaseSchema(BaseModel):
-    created_at: datetime
     year: int
-    status: str
     
     
 class PlanCreateSchema(PlanBaseSchema):
@@ -36,4 +20,6 @@ class PlanCreateSchema(PlanBaseSchema):
     
 class PlanGetSchema(PlanBaseSchema):
     uuid: UUID
+    created_at: datetime
+    status: str
     purchases: List[PurchaseGetSchema]

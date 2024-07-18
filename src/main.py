@@ -7,6 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from src.users.views import router as users_router
 from src.plans.views import router as plans_router
+from src.purchases.views import router as purchases_router
 
 
 # import base settings
@@ -47,6 +48,7 @@ app.add_middleware(
 # e.g. routers = [my_app_router, users_router, auth_router]
 routers = [
     plans_router,
+    purchases_router,
     users_router,
 ]
 
