@@ -33,12 +33,12 @@ async def get_one(
     return item
 
 
-@router.post('/', status_code=status.HTTP_201_CREATED)
+@router.get('/status', status_code=status.HTTP_200_OK)
 async def get_status(
-    item: PurchaseCreateSchema,
+    id: int,
     service: PurchaseService = Depends(get_purchases_service),
 ):
-    status = await service.get_status_by_data(item)
+    status = await service.get_status_by_id(id)
     return {'status': status}
 
 

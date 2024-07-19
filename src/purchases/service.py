@@ -41,9 +41,8 @@ class PurchaseService:
             return items
         raise NotFoundException()
     
-    async def get_status_by_data(self, purchase: PurchaseCreateSchema):
-        item_dict = purchase.model_dump()   
-        if item := await self.repository.get_by_data(**item_dict):
+    async def get_status_by_id(self, id: int):   
+        if item := await self.repository.get_by_id(id):
             return item.status
         raise NotFoundException()
 
