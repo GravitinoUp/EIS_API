@@ -42,6 +42,15 @@ async def get_status(
     return {'status': status}
 
 
+@router.put('/update_status', status_code=status.HTTP_200_OK)
+async def update_status(
+    id: int,
+    service: PurchaseService = Depends(get_purchases_service),
+):
+    await service.update_status(id)
+    return {'message': 'start updating status'}
+
+
 @router.put('/', status_code=status.HTTP_200_OK)
 async def create_one(
     plan_id: int,

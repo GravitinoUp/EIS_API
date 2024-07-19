@@ -4,7 +4,7 @@ Database models of plans app
 
 # you need to import Base from [project_name].database 
 from datetime import datetime
-from sqlalchemy import UUID, Column, Enum, Integer, DateTime, ForeignKey, BIGINT
+from sqlalchemy import Column, Enum, Integer, DateTime, ForeignKey, BIGINT
 from sqlalchemy.orm import relationship
 
 from src.database import Base, generate_unique_id

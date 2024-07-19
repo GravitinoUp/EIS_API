@@ -2,6 +2,7 @@
 purchases app service and repository
 """
 
+import asyncio
 from src.abstract_repository import AbstractRepository
 from src.exceptions import ConflictException, NotFoundException
 from src.purchases.schemas import PurchaseCreateSchema, PurchaseGetSchema
@@ -21,6 +22,9 @@ class PurchaseService:
                 await self.plan_repo.update_version_by_id(plan_id)
                 return PurchaseGetSchema.from_model(purchase)
         raise ConflictException()
+    
+    async def update_status(self, id: int):
+        asyncio.create_task(self.purchase_repo.update_status_by_id(id=id))
 
     async def get_by_id(self, id: int):
         if purchase := await self.purchase_repo.get_by_id(id):

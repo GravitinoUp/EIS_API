@@ -11,7 +11,7 @@ class PurchaseRepository(SQLAlchemyRepository):
     model = Purchase
     
     async def update_status_by_id(self, id: int):
-        await asyncio.sleep(random.randint(120, 300))
+        await asyncio.sleep(random.randint(30, 60))
         async with async_session_maker() as session:
             stmt = update(self.model).filter_by(id=id).values(
                 status='Опубликован',
