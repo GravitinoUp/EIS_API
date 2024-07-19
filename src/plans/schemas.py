@@ -22,4 +22,5 @@ class PlanGetSchema(PlanBaseSchema):
     id: int
     created_at: datetime
     status: str
+    version: int
     purchases: List[PurchaseGetSchema]

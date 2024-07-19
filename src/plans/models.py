@@ -16,6 +16,7 @@ class Plan(Base):
     id = Column(BIGINT, primary_key=True, default=generate_unique_id)
     created_at = Column(DateTime, nullable=False, default=datetime.now())
     year = Column(Integer, nullable=False)
+    version = Column(Integer, nullable=False, default=1)
     status = Column(
         Enum('На публикации', 'Опубликован', 'Не опубликован', name="status"), 
         nullable=False,

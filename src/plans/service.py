@@ -1,46 +1,11 @@
-import random
-from uuid import UUID
 from sqlalchemy.exc import IntegrityError
-from sqlalchemy import delete, select, update
 from typing import List
 import asyncio
 
-from src.abstract_repository import SQLAlchemyRepository
 from src.exceptions import ConflictException, NotFoundException
-from src.plans.models import Plan, PlanPurchase
 from src.plans.schemas import PlanCreateSchema, PlanGetSchema, PurchaseGetSchema
-from src.database import async_session_maker
 from src.purchases.service import PurchaseRepository
-
-
-class PlanRepository(SQLAlchemyRepository):
-    model = Plan
-    
-    async def update_status_by_id(self, id: int):
-        await asyncio.sleep(random.randint(120, 300))
-        async with async_session_maker() as session:
-            stmt = update(self.model).filter_by(id=id).values(
-                status='Опубликован',
-            )
-            await session.execute(stmt)
-            await session.commit()
-
-
-class PlanPurchaseRepository(SQLAlchemyRepository):
-    model = PlanPurchase
-
-    async def get_all(self, plan_id: int):
-        async with async_session_maker() as session:
-            stmt = select(self.model).filter_by(plan_id=plan_id)
-            res = await session.execute(statement=stmt)
-            return res.scalars().all()
-        
-    async def delete_by_id(self, id: int):
-        async with async_session_maker() as session:
-            stmt = delete(self.model).filter_by(plan_id=id).returning(self.model)
-            res = await session.execute(statement=stmt)
-            await session.commit()
-            return res.scalar()
+from src.plans.repositories import PlanRepository, PlanPurchaseRepository
         
     
 class PlanService:
@@ -72,7 +37,6 @@ class PlanService:
             
             return new_plan_schema
         except IntegrityError as e:
-            print(e)
             raise ConflictException()
 
     async def get_by_id(self, id: int) -> PlanGetSchema:

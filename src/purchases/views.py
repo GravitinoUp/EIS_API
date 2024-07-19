@@ -42,6 +42,16 @@ async def get_status(
     return {'status': status}
 
 
+@router.put('/', status_code=status.HTTP_200_OK)
+async def create_one(
+    plan_id: int,
+    purchase: PurchaseCreateSchema,
+    service: PurchaseService = Depends(get_purchases_service),
+):
+    purchase = await service.add(purchase, plan_id)
+    return purchase
+
+
 @router.delete('/', status_code=status.HTTP_204_NO_CONTENT)
 async def delete_one(
     id: int,
