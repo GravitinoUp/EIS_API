@@ -11,7 +11,7 @@ import asyncio
 from src.abstract_repository import SQLAlchemyRepository, AbstractRepository
 from src.purchases.models import Purchase
 from src.exceptions import ConflictException, NotFoundException
-from src.purchases.schemas import PurchaseCreateSchema
+from src.purchases.schemas import PurchaseCreateSchema, PurchaseGetSchema
 from src.database import async_session_maker
 
 
@@ -34,12 +34,12 @@ class PurchaseService:
 
     async def get_by_uuid(self, uuid: UUID):
         if purchase := await self.repository.get_by_uuid(uuid):
-            return purchase
+            return PurchaseGetSchema.from_model(purchase)
         raise NotFoundException()
 
     async def get_all(self, limit: int, offset: int):
         if items := await self.repository.get_all(limit, offset):
-            return items
+            return [PurchaseGetSchema.from_model(item) for item in items]
         raise NotFoundException()
     
     async def get_status_by_data(self, purchase: PurchaseCreateSchema):

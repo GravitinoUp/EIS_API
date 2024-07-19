@@ -20,8 +20,14 @@ class Purchase(Base):
     )
     expense_type_code = Column(Integer, nullable=False)
     okpd2 = Column(String(30), nullable=False)
+    
     expense_total = Column(Double, nullable=False)
     expense_first_year = Column(Double, nullable=False)
     expense_second_year = Column(Double, nullable=False)
     expense_third_year = Column(Double, nullable=False)
     expense_next_years = Column(Double, nullable=False)
+    
+    organization_name = Column(String, nullable=True)
+    organization_inn = Column(String, nullable=True)
+    organization_kpp = Column(String, nullable=True)
+    organization_okpo = Column(String, nullable=True)

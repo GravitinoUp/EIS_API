@@ -56,13 +56,13 @@ class PlanService:
 
             purchases = []
             for purchase_data in plan.purchases:
-                new_purchase = await self.purchase_repo.add(purchase_data.model_dump())
+                new_purchase = await self.purchase_repo.add(purchase_data.custom_dict())
                 await self.plan_purchase_repo.add({
                     "plan_uuid": new_plan.uuid,
                     "purchase_uuid": new_purchase.uuid
                 })
                 asyncio.create_task(self.purchase_repo.update_status_by_uuid(uuid=new_purchase.uuid)) # add background task
-                purchases.append(PurchaseGetSchema.model_validate(new_purchase, from_attributes=True))
+                purchases.append(PurchaseGetSchema.from_model(new_purchase))
 
             new_plan_schema = PlanGetSchema(
                 **new_plan.__dict__,
@@ -119,5 +119,5 @@ class PlanService:
         for plan_purchase in plan_purchases:
             purchase = await self.purchase_repo.get_by_uuid(plan_purchase.purchase_uuid)
             if purchase is not None:
-                purchases.append(PurchaseGetSchema.model_validate(purchase, from_attributes=True))
+                purchases.append(PurchaseGetSchema.from_model(purchase))
         return purchases
