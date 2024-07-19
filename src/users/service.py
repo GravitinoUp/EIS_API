@@ -46,7 +46,7 @@ class UserService:
         return user 
     
     async def delete_by_uuid(self, uuid: UUID):
-        user: User = await self.users_repo.delete_by_uuid(uuid)
+        user: User = await self.users_repo.delete_by_id(uuid)
         return user
     
     async def get_all(self, limit: int = 10):

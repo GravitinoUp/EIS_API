@@ -27,10 +27,10 @@ router = APIRouter(
 
 @router.get('/', response_model=PlanGetSchema, status_code=status.HTTP_200_OK)
 async def get_one(
-    uuid: UUID,
+    id: int,
     service: PlanService = Depends(get_plan_service)
 ):
-    plan = await service.get_by_uuid(uuid)
+    plan = await service.get_by_id(id)
     return plan
 
 
@@ -45,10 +45,10 @@ async def create_one(
 
 @router.delete('/', status_code=status.HTTP_204_NO_CONTENT)
 async def delete_one(
-    uuid: UUID,
+    id: int,
     service: PlanService = Depends(get_plan_service)
 ):
-    await service.delete_by_uuid(uuid)
+    await service.delete_by_id(id)
 
 
 @router.get('/all', status_code=status.HTTP_200_OK)

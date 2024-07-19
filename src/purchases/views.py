@@ -26,28 +26,28 @@ router = APIRouter(
 
 @router.get('/', response_model=PurchaseGetSchema, status_code=status.HTTP_200_OK)
 async def get_one(
-    uuid: UUID,
+    id: int,
     service: PurchaseService = Depends(get_purchases_service),
 ):
-    item = await service.get_by_uuid(uuid)
+    item = await service.get_by_id(id)
     return item
 
 
-@router.post('/', status_code=status.HTTP_201_CREATED)
+@router.get('/status', status_code=status.HTTP_200_OK)
 async def get_status(
-    item: PurchaseCreateSchema,
+    id: int,
     service: PurchaseService = Depends(get_purchases_service),
 ):
-    status = await service.get_status_by_data(item)
+    status = await service.get_status_by_id(id)
     return {'status': status}
 
 
 @router.delete('/', status_code=status.HTTP_204_NO_CONTENT)
 async def delete_one(
-    uuid: UUID,
+    id: int,
     service: PurchaseService = Depends(get_purchases_service),
 ):
-    await service.delete(uuid)
+    await service.delete(id)
 
 
 @router.get('/all', status_code=status.HTTP_200_OK)

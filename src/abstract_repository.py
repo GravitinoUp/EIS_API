@@ -36,7 +36,7 @@ class AbstractRepository(ABC):
         raise NotImplementedError
     
     @abstractmethod
-    async def delete_by_uuid():
+    async def delete_by_id():
         raise NotImplementedError
     
     

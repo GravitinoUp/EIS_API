@@ -19,7 +19,7 @@ class PlanCreateSchema(PlanBaseSchema):
     
     
 class PlanGetSchema(PlanBaseSchema):
-    uuid: UUID
+    id: int
     created_at: datetime
     status: str
     purchases: List[PurchaseGetSchema]
