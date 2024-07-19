@@ -49,5 +49,6 @@ class PurchaseService:
     async def delete(self, id: int):
         if item := await self.repository.delete_by_id(id):
             return item
+
         raise NotFoundException()
     
