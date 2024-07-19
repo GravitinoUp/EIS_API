@@ -31,8 +31,8 @@ class PurchaseService:
     def __init__(self, repository: AbstractRepository):
         self.repository: AbstractRepository = repository()
 
-    async def get_by_uuid(self, uuid: UUID):
-        if purchase := await self.repository.get_by_uuid(uuid):
+    async def get_by_id(self, id: int):
+        if purchase := await self.repository.get_by_id(id):
             return PurchaseGetSchema.from_model(purchase)
         raise NotFoundException()
 

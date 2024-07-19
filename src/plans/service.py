@@ -60,7 +60,7 @@ class PlanService:
                     "plan_id": new_plan.id,
                     "purchase_id": new_purchase.id
                 })
-                asyncio.create_task(self.purchase_repo.update_status_by_uuid(uuid=new_purchase.uuid)) # add background task
+                asyncio.create_task(self.purchase_repo.update_status_by_id(id=new_purchase.id)) # add background task
                 purchases.append(PurchaseGetSchema.from_model(new_purchase))
 
             new_plan_schema = PlanGetSchema(
