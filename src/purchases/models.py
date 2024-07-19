@@ -1,17 +1,16 @@
 """
 Database models of purchases app
 """
+ 
+from sqlalchemy import BIGINT, Column, Double, Enum, Integer, String
 
-# you need to import Base from [project_name].database 
-from uuid import uuid4
-from sqlalchemy import UUID, Column, Double, Enum, Integer, String
-from src.database import Base
+from src.database import Base, generate_unique_id
 
 
 class Purchase(Base):
     __tablename__ = "purchases"
     
-    uuid = Column(UUID, primary_key=True, default=uuid4)
+    id = Column(BIGINT, primary_key=True, default=generate_unique_id)
     year = Column(Integer, nullable=False)
     status = Column(
         Enum('На публикации', 'Опубликован', 'Не опубликован', name="status"), 

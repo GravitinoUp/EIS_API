@@ -16,10 +16,10 @@ from src.purchases.service import PurchaseRepository
 class PlanRepository(SQLAlchemyRepository):
     model = Plan
     
-    async def update_status_by_uuid(self, uuid: UUID):
+    async def update_status_by_id(self, id: int):
         await asyncio.sleep(random.randint(120, 300))
         async with async_session_maker() as session:
-            stmt = update(self.model).filter_by(uuid=uuid).values(
+            stmt = update(self.model).filter_by(id=id).values(
                 status='Опубликован',
             )
             await session.execute(stmt)
@@ -29,15 +29,15 @@ class PlanRepository(SQLAlchemyRepository):
 class PlanPurchaseRepository(SQLAlchemyRepository):
     model = PlanPurchase
 
-    async def get_all(self, plan_uuid: UUID):
+    async def get_all(self, plan_id: int):
         async with async_session_maker() as session:
-            stmt = select(self.model).filter_by(plan_uuid=plan_uuid)
+            stmt = select(self.model).filter_by(plan_id=plan_id)
             res = await session.execute(statement=stmt)
             return res.scalars().all()
         
-    async def delete_by_uuid(self, uuid: UUID):
+    async def delete_by_id(self, id: int):
         async with async_session_maker() as session:
-            stmt = delete(self.model).filter_by(plan_uuid=uuid).returning(self.model)
+            stmt = delete(self.model).filter_by(plan_id=id).returning(self.model)
             res = await session.execute(statement=stmt)
             await session.commit()
             return res.scalar()
@@ -57,10 +57,10 @@ class PlanService:
             for purchase_data in plan.purchases:
                 new_purchase = await self.purchase_repo.add(purchase_data.model_dump())
                 await self.plan_purchase_repo.add({
-                    "plan_uuid": new_plan.uuid,
-                    "purchase_uuid": new_purchase.uuid
+                    "plan_id": new_plan.id,
+                    "purchase_id": new_purchase.id
                 })
-                asyncio.create_task(self.purchase_repo.update_status_by_uuid(uuid=new_purchase.uuid))
+                asyncio.create_task(self.purchase_repo.update_status_by_id(id=new_purchase.id))
                 purchases.append(PurchaseGetSchema.model_validate(new_purchase, from_attributes=True))
 
             new_plan_schema = PlanGetSchema(
@@ -68,33 +68,33 @@ class PlanService:
                 purchases=purchases
             )
             
-            asyncio.create_task(self.plan_repo.update_status_by_uuid(uuid=new_plan.uuid))
+            asyncio.create_task(self.plan_repo.update_status_by_id(id=new_plan.id))
             
             return new_plan_schema
         except IntegrityError as e:
             print(e)
             raise ConflictException()
 
-    async def get_by_uuid(self, uuid: UUID) -> PlanGetSchema:
-        plan = await self.plan_repo.get_by_uuid(uuid)
+    async def get_by_id(self, id: int) -> PlanGetSchema:
+        plan = await self.plan_repo.get_by_id(id)
         if plan is None:
             raise NotFoundException()
 
-        purchases = await self._get_purchases_for_plan(plan.uuid)
+        purchases = await self._get_purchases_for_plan(plan.id)
         plan_schema = PlanGetSchema(
             **plan.__dict__,
             purchases=purchases
         )
         return plan_schema
 
-    async def delete_by_uuid(self, uuid: UUID):
-        plan = await self.plan_repo.delete_by_uuid(uuid)
+    async def delete_by_id(self, id: int):
+        plan = await self.plan_repo.delete_by_id(id)
         if plan is None:
             raise NotFoundException()
-        purchases = await self._get_purchases_for_plan(plan.uuid)
+        purchases = await self._get_purchases_for_plan(plan.id)
         for purchase in purchases:
-            await self.purchase_repo.delete_by_uuid(purchase.uuid)
-            await self.plan_purchase_repo.delete_by_uuid(plan.uuid)
+            await self.purchase_repo.delete_by_id(purchase.id)
+            await self.plan_purchase_repo.delete_by_id(plan.id)
         
     async def get_all(self, limit: int, offset: int) -> List[PlanGetSchema]:
         plans = await self.plan_repo.get_all(limit, offset)
@@ -102,7 +102,7 @@ class PlanService:
             raise NotFoundException()
         plan_schemas = []
         for plan in plans:
-            purchases = await self._get_purchases_for_plan(plan.uuid)
+            purchases = await self._get_purchases_for_plan(plan.id)
             plan_schema = PlanGetSchema(
                 **plan.__dict__,
                 purchases=purchases
@@ -112,11 +112,11 @@ class PlanService:
             raise NotFoundException()
         return plan_schemas
 
-    async def _get_purchases_for_plan(self, plan_uuid: UUID) -> List[PurchaseGetSchema]:
-        plan_purchases = await self.plan_purchase_repo.get_all(plan_uuid=plan_uuid)
+    async def _get_purchases_for_plan(self, plan_id: int) -> List[PurchaseGetSchema]:
+        plan_purchases = await self.plan_purchase_repo.get_all(plan_id=plan_id)
         purchases = []
         for plan_purchase in plan_purchases:
-            purchase = await self.purchase_repo.get_by_uuid(plan_purchase.purchase_uuid)
+            purchase = await self.purchase_repo.get_by_id(plan_purchase.purchase_id)
             if purchase is not None:
                 purchases.append(PurchaseGetSchema.model_validate(purchase, from_attributes=True))
         return purchases

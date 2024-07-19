@@ -17,10 +17,10 @@ from src.database import async_session_maker
 class PurchaseRepository(SQLAlchemyRepository):
     model = Purchase
     
-    async def update_status_by_uuid(self, uuid: UUID):
+    async def update_status_by_id(self, id: int):
         await asyncio.sleep(random.randint(120, 300))
         async with async_session_maker() as session:
-            stmt = update(self.model).filter_by(uuid=uuid).values(
+            stmt = update(self.model).filter_by(id=id).values(
                 status='Опубликован',
             )
             await session.execute(stmt)
@@ -31,8 +31,8 @@ class PurchaseService:
     def __init__(self, repository: AbstractRepository):
         self.repository: AbstractRepository = repository()
 
-    async def get_by_uuid(self, uuid: UUID):
-        if purchase := await self.repository.get_by_uuid(uuid):
+    async def get_by_id(self, id: int):
+        if purchase := await self.repository.get_by_id(id):
             return purchase
         raise NotFoundException()
 
@@ -47,8 +47,8 @@ class PurchaseService:
             return item.status
         raise NotFoundException()
 
-    async def delete(self, uuid: UUID):
-        if item := await self.repository.delete_by_uuid(uuid):
+    async def delete(self, id: int):
+        if item := await self.repository.delete_by_id(id):
             return item
         raise NotFoundException()
     

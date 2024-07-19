@@ -19,6 +19,6 @@ class PurchaseCreateSchema(BaseModel):
     
     
 class PurchaseGetSchema(PurchaseCreateSchema):
-    uuid: UUID
+    id: int
     status: str
 

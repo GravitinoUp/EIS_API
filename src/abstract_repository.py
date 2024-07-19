@@ -36,7 +36,7 @@ class AbstractRepository(ABC):
         raise NotImplementedError
     
     @abstractmethod
-    async def delete_by_uuid():
+    async def delete_by_id():
         raise NotImplementedError
     
     
@@ -88,7 +88,7 @@ class SQLAlchemyRepository(AbstractRepository):
             await session.commit()
             return res.scalar()
         
-    async def delete_by_uuid(self, uuid: UUID):
+    async def delete_by_id(self, uuid: UUID):
         async with async_session_maker() as session:
             stmt = delete(self.model).filter_by(uuid=uuid).returning(self.model)
             res = await session.execute(statement=stmt)
