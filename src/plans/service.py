@@ -32,7 +32,6 @@ class PlanService:
                 purchases=purchases
             )
             
-            # asyncio.create_task(self.plan_repo.update_status_by_id(id=new_plan.id))
             
             return new_plan_schema
         except IntegrityError:
