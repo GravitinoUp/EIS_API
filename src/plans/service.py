@@ -35,7 +35,7 @@ class PlanService:
             # asyncio.create_task(self.plan_repo.update_status_by_id(id=new_plan.id))
             
             return new_plan_schema
-        except IntegrityError as e:
+        except IntegrityError:
             raise ConflictException()
 
     async def get_by_id(self, id: int) -> PlanGetSchema:
