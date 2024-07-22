@@ -3,7 +3,6 @@ Views controllers for purchases app
 """
 
 
-from uuid import UUID
 from fastapi import APIRouter, status, Depends
 
 from src.purchases.config import (

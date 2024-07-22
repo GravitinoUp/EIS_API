@@ -3,9 +3,8 @@ plans schemas
 """
 
 from datetime import datetime
-from uuid import UUID
 from pydantic import BaseModel
-from typing import List, Optional
+from typing import List
 
 from src.purchases.schemas import PurchaseCreateSchema, PurchaseGetSchema
 

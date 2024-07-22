@@ -3,7 +3,6 @@ Views controllers for plans app
 """
 
 
-from uuid import UUID
 from fastapi import APIRouter, Depends, status
 
 from src.plans.config import (

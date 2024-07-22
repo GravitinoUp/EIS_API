@@ -1,6 +1,5 @@
 from sqlalchemy.exc import IntegrityError
 from typing import List
-import asyncio
 
 from src.exceptions import ConflictException, NotFoundException
 from src.plans.schemas import PlanCreateSchema, PlanGetSchema, PurchaseGetSchema

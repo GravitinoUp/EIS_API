@@ -3,7 +3,6 @@ purchases app service and repository
 """
 
 import asyncio
-from src.abstract_repository import AbstractRepository
 from src.exceptions import ConflictException, NotFoundException
 from src.purchases.schemas import PurchaseCreateSchema, PurchaseGetSchema
 from src.plans.repositories import PlanPurchaseRepository, PlanRepository
